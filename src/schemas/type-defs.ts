@@ -11,7 +11,7 @@ const typeDefs = gql`
 		label: String
 		createdAt: String!
 		updateAt: String!
-	}w
+	}
 
 	type Income {
 		id: ID!
