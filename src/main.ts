@@ -5,7 +5,8 @@ const PORT = process.env.PORT || 4444;
 
 if (module.hot) {
 	module.hot.accept();
-	module.hot.dispose(() => console.log('module disposed'));
+	// module.hot.dispose(() => console.log('module disposed'));
+	module.hot.dispose(() => server.stop());
 }
 
 const server = new ApolloServer({ typeDefs });

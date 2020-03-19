@@ -12,7 +12,9 @@ module.exports = {
 	},
 	output: {
 		filename: 'server.js',
-		path: path.resolve(__dirname, 'dist')
+		path: path.resolve(__dirname, 'dist'),
+		hotUpdateChunkFilename: '.hot/hot-update.js',
+		hotUpdateMainFilename: '.hot/hot-update.json'
 	},
 	resolve: {
 		extensions: ['.ts', '.js']
