@@ -5,19 +5,19 @@ module.exports = {
 		rules: [
 			{
 				exclude: [path.resolve(__dirname, 'node_modules')],
-				test: /\.ts$/,
+				test: /\.tsx?$/,
 				use: 'ts-loader'
 			}
 		]
 	},
 	output: {
-		filename: 'server.js',
+		filename: 'index.js',
 		path: path.resolve(__dirname, 'dist'),
-		hotUpdateChunkFilename: '.hot/hot-update.js',
-		hotUpdateMainFilename: '.hot/hot-update.json'
+		hotUpdateChunkFilename: '.hot/[id].[hash].hot-update.js',
+		hotUpdateMainFilename: '.hot/[hash].hot-update.json'
 	},
 	resolve: {
-		extensions: ['.ts', '.js']
+		extensions: ['.tsx', '.ts', '.js']
 	},
 	target: 'node'
 };
