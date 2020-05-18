@@ -1,5 +1,5 @@
 import Router from 'express'
-import db, { getAllUsers } from '../../config/db'
+import { getAllUsers } from '../../config/db/queries/users'
 
 const users = Router()
 
