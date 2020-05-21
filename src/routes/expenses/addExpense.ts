@@ -1,41 +1,40 @@
+import { Request, Response } from 'express'
 import db from '../../config/db'
 import uniqid from 'uniqid'
+import { AddExpense } from './addExpense.interface'
 
-export const addExpense = async (req: any, res: any) => {
-  const { amount, name, description } = req.body // get data from request body
-  const public_id = uniqid('expense-') // generate unique ID for expense
+export async function addExpense(req: Request, res: Response) {
+  const { amount, name, description }: AddExpense = req.body // get data from request body
+  const public_id: string = uniqid('expense-') // generate unique ID for expense
 
   const client = await db.connect() // open connection with DB
 
   try {
     await client.query('BEGIN;') // start transaction
     // default query to insert at least amount spent
-    const insertAmountQuery =
+    const insertAmountQuery: string =
       'insert into expenses (public_id, amount) values ($1, $2) returning id;'
-    await client.query(insertAmountQuery, [public_id, amount])
 
-    // add expense name if provided
-    if (name && !description) {
-      const insertName =
-        'insert into expenses_details (expense_id, name) values ($1, $2) returning id;'
-      await client.query(insertName, [public_id, name])
-    }
+    let AmountParams: [string, number] = [public_id, amount]
 
-    // add expense description if provided
-    if (name && !description) {
-      const insertDescription =
-        'insert into expenses_details (expense_id, name) values ($1, $2) returning id;'
-      await client.query(insertDescription, [public_id, description])
-    }
+    await client.query(insertAmountQuery, AmountParams)
 
-    // add expense name and description if provided
-    if (name && description) {
-      const insertDescription =
+    // if there are any details added when inserting them put them into db too
+    if (name || description) {
+      const insertDetails: string =
         'insert into expenses_details (expense_id, name, description) values ($1, $2, $3) returning id;'
-      await client.query(insertDescription, [public_id, name, description])
+
+      let DetailsParams: [string, string?, string?] = [
+        public_id,
+        name,
+        description,
+      ]
+
+      await client.query(insertDetails, DetailsParams)
     }
 
     await client.query('COMMIT;') // finish transaction
+
     res.status(200).json({ message: 'Expense added to the system' })
   } catch (err) {
     await client.query('ROLLBACK;')
