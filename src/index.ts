@@ -4,6 +4,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import routes from './routes'
 import bodyParser from 'body-parser'
+import cookieParser from 'cookie-parser'
 
 dotenv.config()
 
@@ -23,7 +24,13 @@ app.use(
     extended: true,
   }),
 )
+app.use(cookieParser())
+
+// router
 app.use('/', routes)
+
+// error middleware
+// 404 middleware
 
 // health check
 console.log('hello world')
