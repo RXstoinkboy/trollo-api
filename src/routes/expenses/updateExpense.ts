@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import db from '../../config/db'
-import { UpdateExpense } from './updateExpense.interface'
+import { UpdateExpense } from './interfaces/UpdateExpense.interface'
 import { QueryResult } from 'pg'
 
 export async function updateExpense(req: Request, res: Response) {

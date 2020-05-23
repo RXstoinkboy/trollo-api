@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
 import db from '../../config/db'
-import uniqid from 'uniqid'
-import { AddExpense } from './addExpense.interface'
+import { v4 as uuid } from 'uuid'
+import { AddExpense } from './interfaces/AddExpense.interface'
 
 export async function addExpense(req: Request, res: Response) {
   const { amount, name, description }: AddExpense = req.body // get data from request body
-  const public_id: string = uniqid('expense-') // generate unique ID for expense
+  const public_id: string = uuid() // generate unique ID for expense
 
   const client = await db.connect() // open connection with DB
 
