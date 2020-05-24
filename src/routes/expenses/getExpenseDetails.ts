@@ -52,8 +52,8 @@ export async function getExpenseDetails(req: Request, res: Response) {
       amount,
       name,
       description,
-      categoryId: undefined,
-      category: undefined,
+      categoryId: null,
+      category: null,
       created_at,
       updated_at,
     }
