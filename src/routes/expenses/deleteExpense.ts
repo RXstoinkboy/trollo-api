@@ -7,16 +7,16 @@ export async function deleteExpense(req: Request, res: Response) {
 
   const client = await db.connect()
 
+  const deleteExpenseQuery: string =
+    'delete from expenses where public_id = $1;'
+  const deleteDetailsQuery: string =
+    'delete from expenses_details where expense_id = $1;'
+
   try {
-    await client.query('BEGIN;')
-
-    const deleteExpenseQuery: string =
-      'delete from expenses where public_id = $1;'
-    const deleteDetailsQuery: string =
-      'delete from expenses_details where expense_id = $1;'
-
     let DeleteParams: [string] = [expense_id]
     let DeleteDetailsParams: [string] = [expense_id]
+
+    await client.query('BEGIN;')
 
     await client.query(deleteExpenseQuery, DeleteParams)
     await client.query(deleteDetailsQuery, DeleteDetailsParams)

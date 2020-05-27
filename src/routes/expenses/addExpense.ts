@@ -9,11 +9,14 @@ export async function addExpense(req: Request, res: Response) {
 
   const client = await db.connect() // open connection with DB
 
+  const insertAmountQuery: string =
+    'insert into expenses (public_id, amount) values ($1, $2) returning id;'
+  const insertDetails: string =
+    'insert into expenses_details (expense_id, name, description) values ($1, $2, $3) returning id;'
+
   try {
     await client.query('BEGIN;') // start transaction
     // default query to insert at least amount spent
-    const insertAmountQuery: string =
-      'insert into expenses (public_id, amount) values ($1, $2) returning id;'
 
     let AmountParams: [string, number] = [public_id, amount]
 
@@ -21,9 +24,6 @@ export async function addExpense(req: Request, res: Response) {
 
     // if there are any details added when inserting them put them into db too
     if (name || description) {
-      const insertDetails: string =
-        'insert into expenses_details (expense_id, name, description) values ($1, $2, $3) returning id;'
-
       let DetailsParams: [string, string?, string?] = [
         public_id,
         name,

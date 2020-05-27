@@ -8,23 +8,31 @@ export async function updateExpense(req: Request, res: Response) {
 
   const client = await db.connect()
 
+  const amountQuery: string = `
+        update expenses set
+        amount = $2
+        where public_id = $1
+        returning amount;
+    `
+  const nameOrDesc: string = `
+          update expenses_details set
+          name = $2,
+          description = $3
+          where expense_id = $1
+          returning name, description;
+      `
+
   try {
     await client.query('BEGIN;')
 
     if (amount) {
-      const amountQuery: string = `
-            update expenses set
-            amount = $2
-            where public_id = $1
-            returning amount;
-        `
-
       let ExpenseParams: [string, number] = [public_id, amount]
 
       const queryResult: QueryResult = await client.query(
         amountQuery,
         ExpenseParams,
       )
+      // extract data
       const newAmount: number = queryResult.rows[0].amount
 
       //   double check if new data from DB is the same as the one which we wanted to update
@@ -33,14 +41,6 @@ export async function updateExpense(req: Request, res: Response) {
     }
 
     if (name || description) {
-      const nameOrDesc: string = `
-            update expenses_details set
-            name = $2,
-            description = $3
-            where expense_id = $1
-            returning name, description;
-        `
-
       let DetailsParams: [string, string?, string?] = [
         public_id,
         name,
@@ -51,6 +51,7 @@ export async function updateExpense(req: Request, res: Response) {
         nameOrDesc,
         DetailsParams,
       )
+      // extract data
       const newName: string = queryResult.rows[0].name
       const newDesc: string = queryResult.rows[0].description
 
