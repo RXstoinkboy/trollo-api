@@ -2,34 +2,38 @@ import { Request, Response } from 'express'
 import db from '../../config/db'
 import { DeleteExpense } from './interfaces/DeleteExpense.interface'
 
-export async function deleteExpense(req: Request, res: Response) {
-  const { expense_id }: DeleteExpense = req.body
-
-  const client = await db.connect()
-
-  const deleteExpenseQuery: string =
-    'delete from expenses where public_id = $1;'
-  const deleteDetailsQuery: string =
+const deleteExpenseQuery: string = 'delete from expenses where public_id = $1;'
+const deleteDetailsQuery: string =
     'delete from expenses_details where expense_id = $1;'
+const deleteFromCategory: string = `delete from expenses_categories where expense_id = $1;`
+const deleteFromUser: string = `delete from users_expenses where expense_id = $1;`
 
-  try {
-    let DeleteParams: [string] = [expense_id]
-    let DeleteDetailsParams: [string] = [expense_id]
+export async function deleteExpense(req: Request, res: Response) {
+    const { expense_id }: DeleteExpense = req.body
 
-    await client.query('BEGIN;')
+    const client = await db.connect()
 
-    await client.query(deleteExpenseQuery, DeleteParams)
-    await client.query(deleteDetailsQuery, DeleteDetailsParams)
+    try {
+        let deleteParams: [string] = [expense_id]
 
-    await client.query('COMMIT;')
+        await client.query('BEGIN;')
 
-    res.status(200).json({ message: 'Expense successfully deleted' })
-  } catch (err) {
-    await client.query('ROLLBACK;')
-    res.status(400).json({ message: 'sorry, there was delete operation error' })
+        await client.query(deleteExpenseQuery, deleteParams)
+        await client.query(deleteDetailsQuery, deleteParams)
+        await client.query(deleteFromCategory, deleteParams)
+        await client.query(deleteFromUser, deleteParams)
 
-    console.error(err)
-  } finally {
-    client.release()
-  }
+        await client.query('COMMIT;')
+
+        res.status(200).json({ message: 'Expense successfully deleted' })
+    } catch (err) {
+        await client.query('ROLLBACK;')
+        res.status(400).json({
+            message: 'sorry, there was delete operation error',
+        })
+
+        console.error(err)
+    } finally {
+        client.release()
+    }
 }
