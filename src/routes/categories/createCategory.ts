@@ -2,13 +2,7 @@ import { Request, Response } from 'express'
 import db from '../../config/db'
 import { v4 as uuid } from 'uuid'
 import { QueryResult } from 'pg'
-
-type CreateCategory = {
-    user_id: string
-    name: string
-    description?: string
-    color?: string
-}
+import { CreateCategory } from './interfaces/CreateCategory.interface'
 
 const addCategory: string =
     'insert into categories (public_id, name) values ($1, $2) returning public_id, name;'
