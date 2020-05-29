@@ -21,7 +21,7 @@ export default async function createCategory(req: Request, res: Response) {
         await client.query('BEGIN;')
 
         let categoryParams: [string, string] = [public_id, name]
-        let categoryDetailsParams: [string, string?, string?] = [
+        let categoryDetailsParams: [string, string | null, string | null] = [
             public_id,
             description,
             color,
