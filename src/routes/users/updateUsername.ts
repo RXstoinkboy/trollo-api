@@ -1,39 +1,27 @@
 import { Request, Response } from 'express'
-import db from '../../config/db'
-import { QueryResult } from 'pg'
-import UsernameCredentials from './interfaces/UsernameCredentials.interface'
+import updateUsernameService from './controllers/updateUsername'
 
-// queries
-const updateQuery: string = `
-    update users set
-        login = $2
-    where public_id = $1
-    returning login;
-`
+type Params = {
+    public_id: string
+    new_login: string
+    repeat_new_login: string
+}
 
 export async function updateUsername(req: Request, res: Response) {
-    const {
-        public_id,
-        new_login,
-        repeat_new_login,
-    }: UsernameCredentials = req.body
+    const params: Params = req.body
+
     try {
-        if (new_login === repeat_new_login) {
-            let updateUsernameParams: [string, string] = [public_id, new_login]
-            const updateUsernameResult: QueryResult = await db.query(
-                updateQuery,
-                updateUsernameParams,
-            )
-            const updatedLogin = updateUsernameResult.rows[0].login
+        const isUpdateSuccessful = await updateUsernameService(params)
+
+        if (isUpdateSuccessful) {
             res.status(200).json({
-                message: `Login updated to ${updatedLogin}`,
+                message: `Login updated to ${params.new_login}`,
             })
         }
-        if (new_login !== repeat_new_login)
-            res.status(400).send('Provided logins should be the same')
-        // res.status(400).send('Something went wrong')
+
+        res.status(300).send('Login and "repeat new login" should be the same.')
     } catch (err) {
         console.error(err)
-        res.status(500).send('We had trouble with updating your login')
+        res.status(400).send('Error while updating username. Please try again.')
     }
 }

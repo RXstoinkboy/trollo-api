@@ -2,9 +2,9 @@ import db from '../../../config/db'
 import query from '../models/query'
 import { v4 as uuid } from 'uuid'
 import { QueryResult } from 'pg'
-import User from '../interfaces/User.interface'
+import User from '../interfaces/user.interface'
 
-interface params {
+interface Params {
     login: string
     password: string
 }
@@ -12,7 +12,7 @@ interface params {
 export default async function insertUser({
     login,
     password,
-}: params): Promise<string> {
+}: Params): Promise<string> {
     const user: User = {
         public_id: uuid(),
         login,
