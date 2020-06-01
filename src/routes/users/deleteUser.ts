@@ -1,28 +1,15 @@
 import { Request, Response } from 'express'
-import db from '../../config/db'
-import { QueryResult } from 'pg'
-import DeleteConfirmation from './interfaces/DeleteConfirmation.interface'
+import deleteUserService from './controllers/deleteUser'
 
-const deleteQuery = `
-    update users set
-        active = false
-    where public_id = $1
-    returning public_id, active;`
+type Params = {
+    public_id: string
+}
 
 export async function deleteUser(req: Request, res: Response) {
-    const { public_id } = req.body
+    const { public_id }: Params = req.body
 
     try {
-        let deleteParams: [string] = [public_id]
-
-        const queryResult: QueryResult = await db.query(
-            deleteQuery,
-            deleteParams,
-        )
-        const deleteConfirmation: DeleteConfirmation = {
-            id: queryResult.rows[0].public_id,
-            active: queryResult.rows[0].active,
-        }
+        const deleteConfirmation = await deleteUserService(public_id)
 
         res.status(200).json({
             message: `User id: ${deleteConfirmation.id}, deleted, status: ${

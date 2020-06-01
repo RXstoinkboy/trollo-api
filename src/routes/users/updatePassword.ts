@@ -1,16 +1,17 @@
 import { Request, Response } from 'express'
 import db from '../../config/db'
+import query from './models/query'
 import { QueryResult } from 'pg'
 import User from './interfaces/User.interface'
 import Credentials from './interfaces/Credentials.interface'
 
-const getUserDataQuery: string = 'select * from users where public_id = $1;'
-const updateQuery: string = `
-    update users set
-        password = $2
-    where public_id = $1
-    returning password;
-`
+type Params = {
+    public_id: string
+    password: string
+    repeat_password: string
+    new_password: string
+    repeat_new_password: string
+}
 
 export async function updatePassword(req: Request, res: Response) {
     const {
@@ -19,7 +20,7 @@ export async function updatePassword(req: Request, res: Response) {
         repeat_password,
         new_password,
         repeat_new_password,
-    }: Credentials = req.body
+    }: Params = req.body
 
     const client = await db.connect()
 
@@ -28,7 +29,7 @@ export async function updatePassword(req: Request, res: Response) {
 
         let getUserParams: [string] = [public_id]
         const userQueryResult: QueryResult = await client.query(
-            getUserDataQuery,
+            query.getUserData,
             getUserParams,
         )
 
@@ -48,7 +49,7 @@ export async function updatePassword(req: Request, res: Response) {
         ) {
             let updateParams: [string, string] = [public_id, new_password]
             const updateQueryResult: QueryResult = await db.query(
-                updateQuery,
+                query.updateUser,
                 updateParams,
             )
 

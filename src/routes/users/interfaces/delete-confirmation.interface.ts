@@ -1,4 +1,4 @@
 export default interface DeleteConfirmation {
-  id: string
-  active: boolean
+    id: string
+    active: boolean
 }
