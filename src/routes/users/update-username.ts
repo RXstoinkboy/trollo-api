@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import updateUsernameService from './controllers/updateUsername'
+import updateUsernameService from './controllers/update-username'
 
 type Params = {
     public_id: string

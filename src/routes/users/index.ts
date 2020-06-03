@@ -1,8 +1,8 @@
 import Router from 'express'
-import { createUser } from './createUser'
-import { deleteUser } from './deleteUser'
-import { updatePassword } from './updatePassword'
-import { updateUsername } from './updateUsername'
+import { createUser } from './create-user'
+import { deleteUser } from './delete-user'
+import { updatePassword } from './update-password'
+import { updateUsername } from './update-username'
 
 const users = Router()
 

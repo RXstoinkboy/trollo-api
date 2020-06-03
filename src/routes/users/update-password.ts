@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import updatePasswordService from './controllers/updatePassword'
+import updatePasswordService from './controllers/update-password'
 
 type Params = {
     public_id: string

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import insertUser from './controllers/insertUser'
+import insertUser from './controllers/insert-user'
 
 type Params = {
     login: string

@@ -1,4 +1,4 @@
-export interface AddExpense {
+export default interface NewExpense {
     id?: string
     amount: number
     name?: string

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import deleteUserService from './controllers/deleteUser'
+import deleteUserService from './controllers/delete-user'
 
 type Params = {
     public_id: string
