@@ -9,6 +9,8 @@ export default async function deleteExpense({
 }: Params): Promise<void> {
     const client = await db.connect()
     try {
+        if (!expense_id) throw new Error('expense_id not specified')
+
         let deleteParams: [string] = [expense_id]
 
         await client.query('BEGIN;')

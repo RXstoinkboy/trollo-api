@@ -2,8 +2,6 @@
 
 -- DROP TABLE public.expenses_categories;
 
--- table linking expense to a category
-
 CREATE TABLE public.expenses_categories
 (
     expense_id text COLLATE pg_catalog."default" NOT NULL,
@@ -16,4 +14,4 @@ WITH (
 TABLESPACE pg_default;
 
 ALTER TABLE public.expenses_categories
-    OWNER to postgres;
+    OWNER to "trollo-user";

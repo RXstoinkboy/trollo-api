@@ -2,8 +2,6 @@
 
 -- DROP TABLE public.categories_details;
 
--- more detialed information about a category
-
 CREATE TABLE public.categories_details
 (
     id integer NOT NULL DEFAULT nextval('categories_details_id_seq'::regclass),
@@ -17,4 +15,4 @@ WITH (
 TABLESPACE pg_default;
 
 ALTER TABLE public.categories_details
-    OWNER to postgres;
+    OWNER to "trollo-user";

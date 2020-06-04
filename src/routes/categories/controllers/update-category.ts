@@ -20,12 +20,19 @@ export default async function updateCategory({
     const client = await db.connect()
 
     try {
+        if (!category_id) throw new Error('category_id not specified')
+
         await client.query('BEGIN;')
 
         if (user_id) {
             let usersCategoriesParams: [string, string] = [category_id, user_id]
 
             await client.query(query.usersCategories, usersCategoriesParams)
+        }
+        if (name) {
+            let categoriesParams: [string, string | null] = [category_id, name]
+
+            await client.query(query.categories, categoriesParams)
         }
         if (description || color) {
             let categoriesDetailsParams: [
@@ -47,14 +54,6 @@ export default async function updateCategory({
                 ] = [category_id, description, color]
 
                 await client.query(query.insertDetails, insertDetailsParams)
-            }
-            if (name) {
-                let categoriesParams: [string, string | null] = [
-                    category_id,
-                    name,
-                ]
-
-                await client.query(query.categories, categoriesParams)
             }
         }
 

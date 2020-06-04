@@ -23,6 +23,6 @@ export async function updatePassword(req: Request, res: Response) {
         })
     } catch (err) {
         console.error(err)
-        res.status(400).send('Password not updated. Please try again.')
+        res.status(400).json({ message: err.message })
     }
 }

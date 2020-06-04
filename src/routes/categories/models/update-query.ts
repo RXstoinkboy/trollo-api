@@ -10,7 +10,7 @@ const query: Query = {
     update categories_details set
         description = coalesce($2, description),
         color = coalesce($3, color)
-    where category_id = $1;
+    where category_id = $1 returning description, color;
 `,
     insertDetails: `
     insert into categories_details

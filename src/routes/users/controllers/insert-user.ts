@@ -13,6 +13,9 @@ export default async function insertUser({
     login,
     password,
 }: Params): Promise<string> {
+    if (!login) throw new Error('login not specified')
+    if (!password) throw new Error('password not specified')
+
     const user: User = {
         public_id: uuid(),
         login,

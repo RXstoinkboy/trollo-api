@@ -4,9 +4,9 @@ import query from '../models/insert-query'
 
 type Params = {
     amount: number
-    name: string
-    description: string
-    category: string
+    name: string | null
+    description: string | null
+    category: string | null
     user: string
 }
 
@@ -16,11 +16,14 @@ export default async function insertExpense({
     description,
     category,
     user,
-}: Params): Promise<void> {
+}: Params): Promise<string> {
     const public_id: string = uuid() // generate unique ID for expense
     const client = await db.connect() // open connection with DB
 
     try {
+        if (!user) throw new Error('user not specified')
+        if (!amount) throw new Error('amount not specified')
+
         await client.query('BEGIN;') // start transaction
         // default query to insert at least amount spent
 
@@ -33,7 +36,7 @@ export default async function insertExpense({
 
         // if there are any details added when inserting them put them into db too
         if (name || description) {
-            let detailsParams: [string, string?, string?] = [
+            let detailsParams: [string, string | null, string | null] = [
                 public_id,
                 name,
                 description,
@@ -49,6 +52,7 @@ export default async function insertExpense({
         }
 
         await client.query('COMMIT;') // finish transaction
+        return public_id
     } catch (err) {
         await client.query('ROLLBACK;')
         console.error(err)

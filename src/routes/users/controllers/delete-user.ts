@@ -8,6 +8,8 @@ type Params = string
 export default async function deleteUser(
     public_id: Params,
 ): Promise<DeleteConfirmation> {
+    if (!public_id) throw new Error('public_id not specified')
+
     let deleteParams: [string] = [public_id]
 
     let queryResult: QueryResult = await db.query(

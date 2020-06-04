@@ -1,6 +1,6 @@
 import Router from 'express'
-import createCategory from './createCategory'
-import deleteCategory from './deleteCategory'
+import createCategory from './create-category'
+import deleteCategory from './delete-category'
 import updateCategory from './update-category'
 
 const categories = Router()

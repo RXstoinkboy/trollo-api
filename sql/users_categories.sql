@@ -1,10 +1,8 @@
--- Table: public.users_catergories
+-- Table: public.users_categories
 
--- DROP TABLE public.users_catergories;
+-- DROP TABLE public.users_categories;
 
--- table linking users to categories which have been created by them
-
-CREATE TABLE public.users_catergories
+CREATE TABLE public.users_categories
 (
     id integer NOT NULL DEFAULT nextval('users_catergories_id_seq'::regclass),
     user_id text COLLATE pg_catalog."default",
@@ -15,5 +13,5 @@ WITH (
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.users_catergories
-    OWNER to postgres;
+ALTER TABLE public.users_categories
+    OWNER to "trollo-user";

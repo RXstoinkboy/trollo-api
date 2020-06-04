@@ -24,6 +24,12 @@ export default async function updatePassword({
     const client = await db.connect()
 
     try {
+        if (!public_id) throw new Error('public_id not specified')
+        if (!password) throw new Error('password not specified')
+        if (!new_password) throw new Error('new_password not specified')
+        if (!repeat_new_password)
+            throw new Error('repeat_new_password not specified')
+
         await client.query('BEGIN;')
 
         const userDataResult: QueryResult = await client.query(

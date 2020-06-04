@@ -9,8 +9,7 @@ export async function updateExpense(req: Request, res: Response) {
         res.status(200).json({ message: 'Expense successfully updated!' })
     } catch (err) {
         res.status(400).json({
-            message: 'Sorry, something went wrong when updating expense',
-            error: err,
+            message: err.message,
         })
     }
 }

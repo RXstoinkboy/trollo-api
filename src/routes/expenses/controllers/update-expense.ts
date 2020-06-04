@@ -18,21 +18,14 @@ export default async function updateExpense({
     const client = await db.connect()
 
     try {
+        if (!public_id) throw new Error('public_id not specified')
+
         await client.query('BEGIN;')
 
         if (amount) {
             let ExpenseParams: [string, number] = [public_id, amount]
 
-            const queryResult: QueryResult = await client.query(
-                query.amount,
-                ExpenseParams,
-            )
-            // extract data
-            const newAmount: number = queryResult.rows[0].amount
-
-            //   double check if new data from DB is the same as the one which we wanted to update
-            if (newAmount !== amount)
-                throw new Error('Updating amount went wrong!')
+            await client.query(query.amount, ExpenseParams)
         }
 
         if (name || description) {
@@ -42,9 +35,23 @@ export default async function updateExpense({
                 description,
             ]
 
-            await client.query(query.nameOrDesc, DetailsParams)
+            const expenseDetailsResults: QueryResult = await client.query(
+                query.nameOrDesc,
+                DetailsParams,
+            )
+
+            if (!expenseDetailsResults.rows[0]) {
+                let insertDetailsParams: [
+                    string,
+                    string | null,
+                    string | null,
+                ] = [public_id, name, description]
+
+                await client.query(query.insertNameOrDesc, insertDetailsParams)
+            }
         }
-        client.query('COMMIT;')
+
+        await client.query('COMMIT;')
     } catch (err) {
         await client.query('ROLLBACK;')
         console.error(err)

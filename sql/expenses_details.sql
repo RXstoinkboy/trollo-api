@@ -2,8 +2,6 @@
 
 -- DROP TABLE public.expenses_details;
 
--- more detailed information about an expense like desciption etc ...
-
 CREATE TABLE public.expenses_details
 (
     id integer NOT NULL DEFAULT nextval('expenses_details_id_seq'::regclass),
@@ -17,4 +15,4 @@ WITH (
 TABLESPACE pg_default;
 
 ALTER TABLE public.expenses_details
-    OWNER to postgres;
+    OWNER to "trollo-user";
