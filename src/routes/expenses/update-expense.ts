@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import updateExpenseService from './controllers/update-expense'
+import Params from './interfaces/update-params.interface'
 
 export async function updateExpense(req: Request, res: Response) {
-    const params = req.body
+    const params: Params = req.body
 
     try {
         await updateExpenseService(params)

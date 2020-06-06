@@ -1,10 +1,6 @@
 import { Request, Response } from 'express'
 import insertUser from './controllers/insert-user'
-
-type Params = {
-    login: string
-    password: string
-}
+import Params from './interfaces/create-params.interface'
 
 export async function createUser(req: Request, res: Response) {
     try {

@@ -3,7 +3,8 @@ import Query from '../interfaces/update-query.interface'
 const query: Query = {
     categories: `
     update categories set
-        name = coalesce($2, name)
+        name = coalesce($2, name),
+        ui_position = coalesce($3, ui_position)
     where public_id = $1;
 `,
     categoriesDetails: `

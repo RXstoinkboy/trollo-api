@@ -1,14 +1,7 @@
 import db from '../../../config/db'
 import query from '../models/update-query'
 import { QueryResult } from 'pg'
-
-type Params = {
-    category_id: string
-    user_id: string
-    name: string
-    description: string
-    color: string
-}
+import Params from '../interfaces/update-params.interface'
 
 export default async function updateCategory({
     category_id,
@@ -16,6 +9,7 @@ export default async function updateCategory({
     name,
     description,
     color,
+    ui_position,
 }: Params): Promise<void> {
     const client = await db.connect()
 
@@ -29,8 +23,12 @@ export default async function updateCategory({
 
             await client.query(query.usersCategories, usersCategoriesParams)
         }
-        if (name) {
-            let categoriesParams: [string, string | null] = [category_id, name]
+        if (name || ui_position) {
+            let categoriesParams: [string, string | null, number | null] = [
+                category_id,
+                name,
+                ui_position,
+            ]
 
             await client.query(query.categories, categoriesParams)
         }

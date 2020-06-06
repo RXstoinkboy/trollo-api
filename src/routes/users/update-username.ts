@@ -1,11 +1,6 @@
 import { Request, Response } from 'express'
 import updateUsernameService from './controllers/update-username'
-
-type Params = {
-    public_id: string
-    new_login: string
-    repeat_new_login: string
-}
+import Params from './interfaces/update-username-params.interface'
 
 export async function updateUsername(req: Request, res: Response) {
     const params: Params = req.body

@@ -1,11 +1,6 @@
 import db from '../../../config/db'
 import query from '../models/query'
-
-type Params = {
-    public_id: string
-    new_login: string
-    repeat_new_login: string
-}
+import Params from '../interfaces/update-username-params.interface'
 
 export default async function updateUsername({
     public_id,

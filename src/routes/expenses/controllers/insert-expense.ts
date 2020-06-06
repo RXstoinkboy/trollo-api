@@ -1,14 +1,7 @@
 import db from '../../../config/db'
 import { v4 as uuid } from 'uuid'
 import query from '../models/insert-query'
-
-type Params = {
-    amount: number
-    name: string | null
-    description: string | null
-    category: string | null
-    user: string
-}
+import Params from '../interfaces/create-params.interface'
 
 export default async function insertExpense({
     amount,

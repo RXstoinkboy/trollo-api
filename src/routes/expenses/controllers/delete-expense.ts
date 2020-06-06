@@ -1,9 +1,7 @@
 import db from '../../../config/db'
 import query from '../models/delete-query'
+import Params from '../interfaces/delete-params.interface'
 
-type Params = {
-    expense_id: string
-}
 export default async function deleteExpense({
     expense_id,
 }: Params): Promise<void> {

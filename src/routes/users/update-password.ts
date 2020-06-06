@@ -1,12 +1,6 @@
 import { Request, Response } from 'express'
 import updatePasswordService from './controllers/update-password'
-
-type Params = {
-    public_id: string
-    password: string
-    new_password: string
-    repeat_new_password: string
-}
+import Params from './interfaces/update-password-params.interface'
 
 export async function updatePassword(req: Request, res: Response) {
     const params: Params = req.body

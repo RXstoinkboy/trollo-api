@@ -1,8 +1,9 @@
 import { Response, Request } from 'express'
 import deleteCategoryService from './controllers/delete-category'
+import Params from './interfaces/delete-params.interface'
 
 export default async function deleteCategory(req: Request, res: Response) {
-    const params = req.body
+    const params: Params = req.body
 
     try {
         await deleteCategoryService(params)

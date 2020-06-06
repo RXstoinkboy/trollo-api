@@ -1,19 +1,14 @@
 import db from '../../../config/db'
 import { v4 as uuid } from 'uuid'
 import query from '../models/create-query'
-
-type Params = {
-    user_id: string
-    name: string
-    description: string | null
-    color: string | null
-}
+import Params from '../interfaces/create-params.interface'
 
 export default async function createCategory({
     user_id,
     name,
     description,
     color,
+    ui_position,
 }: Params): Promise<string> {
     const public_id: string = uuid()
     const client = await db.connect()
@@ -24,7 +19,11 @@ export default async function createCategory({
 
         await client.query('BEGIN;')
 
-        let categoryParams: [string, string] = [public_id, name]
+        let categoryParams: [string, string, number] = [
+            public_id,
+            name,
+            ui_position,
+        ]
         let assignToUserParams: [string, string] = [user_id, public_id]
 
         await client.query(query.addCategory, categoryParams)

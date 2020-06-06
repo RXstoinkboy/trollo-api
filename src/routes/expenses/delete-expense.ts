@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import deleteExpenseService from './controllers/delete-expense'
+import Params from './interfaces/delete-params.interface'
 
 export async function deleteExpense(req: Request, res: Response) {
-    const params = req.body
+    const params: Params = req.body
 
     try {
         await deleteExpenseService(params)

@@ -1,9 +1,6 @@
 import db from '../../../config/db'
 import query from '../models/delete-query'
-
-type Params = {
-    category_id: string
-}
+import Params from '../interfaces/delete-params.interface'
 
 export default async function deleteCategory({ category_id }: Params) {
     const client = await db.connect()

@@ -1,13 +1,7 @@
 import query from '../models/update-query'
 import db from '../../../config/db'
 import { QueryResult } from 'pg'
-
-type Params = {
-    public_id: string
-    amount: number
-    name: string
-    description: string
-}
+import Params from '../interfaces/update-params.interface'
 
 export default async function updateExpense({
     public_id,

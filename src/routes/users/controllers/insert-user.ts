@@ -3,11 +3,7 @@ import query from '../models/query'
 import { v4 as uuid } from 'uuid'
 import { QueryResult } from 'pg'
 import User from '../interfaces/user.interface'
-
-interface Params {
-    login: string
-    password: string
-}
+import Params from '../interfaces/create-params.interface'
 
 export default async function insertUser({
     login,

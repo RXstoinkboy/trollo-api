@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import updateCategoryService from './controllers/update-category'
+import Params from './interfaces/update-params.interface'
 
 export default async function updateCategory(req: Request, res: Response) {
-    const params = req.body
+    const params: Params = req.body
 
     try {
         await updateCategoryService(params)
@@ -12,6 +13,6 @@ export default async function updateCategory(req: Request, res: Response) {
         })
     } catch (err) {
         console.error(err)
-        res.status(500).json({ message: err.message })
+        res.status(400).json({ message: err.message })
     }
 }

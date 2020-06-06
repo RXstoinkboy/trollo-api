@@ -1,13 +1,7 @@
 import db from '../../../config/db'
 import query from '../models/query'
 import { QueryResult } from 'pg'
-
-type Params = {
-    public_id: string
-    password: string
-    new_password: string
-    repeat_new_password: string
-}
+import Params from '../interfaces/update-password-params.interface'
 
 type CredentialsConfirmation = {
     password: string

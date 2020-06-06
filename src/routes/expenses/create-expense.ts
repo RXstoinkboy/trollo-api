@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import insertExpense from './controllers/insert-expense'
+import Params from './interfaces/create-params.interface'
 
 export async function createExpense(req: Request, res: Response) {
-    const params = req.body // get data from request body
+    const params: Params = req.body // get data from request body
 
     try {
         const public_id = await insertExpense(params)
