@@ -2,11 +2,11 @@ import Router from 'express'
 import { createExpense } from './create-expense'
 import { updateExpense } from './update-expense'
 import { deleteExpense } from './delete-expense'
-import { getExpenseDetails } from './get-expenses'
+import { getExpenses } from './get-expenses'
 
 const expenses = Router()
 
-expenses.get('/', getExpenseDetails)
+expenses.get('/', getExpenses)
 expenses.post('/', createExpense)
 expenses.put('/', updateExpense)
 expenses.delete('/', deleteExpense)

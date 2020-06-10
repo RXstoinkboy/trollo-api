@@ -17,7 +17,7 @@ const query: QueryParams = {
     left join categories on categories.public_id = users_categories.category_id
     left join categories_details on categories_details.category_id = users_categories.category_id
     
-    where users_categories.user_id = 'b3844a15-ef5f-4b5a-a880-24bd2a9d76db';
+    where users_categories.user_id = $1;
     `,
 }
 
