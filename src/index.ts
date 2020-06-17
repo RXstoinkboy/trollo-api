@@ -5,6 +5,7 @@ import helmet from 'helmet'
 import routes from './routes'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
+import './config/passport'
 
 dotenv.config()
 
@@ -27,7 +28,7 @@ app.use(
 app.use(cookieParser())
 
 // passport
-// express-session
+// JWT
 
 // router
 app.use('/', routes)

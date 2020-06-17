@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { QueryResult } from 'pg'
 import User from '../interfaces/user.interface'
 import Params from '../interfaces/create-params.interface'
+import bcrypt from 'bcrypt'
 
 export default async function insertUser({
     login,
@@ -12,10 +13,14 @@ export default async function insertUser({
     if (!login) throw new Error('login not specified')
     if (!password) throw new Error('password not specified')
 
+    const saltRounds = process.env.NODE_ENV === 'production' ? 12 : 10
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
+    console.log('hashedPassword', hashedPassword)
+
     const user: User = {
         public_id: uuid(),
         login,
-        password,
+        password: hashedPassword,
         active: true,
     }
 
