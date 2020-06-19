@@ -2,6 +2,8 @@ import db from '../../../config/db'
 import query from '../models/query'
 import { QueryResult } from 'pg'
 import Params from '../interfaces/update-password-params.interface'
+import bcrypt from 'bcrypt'
+import passport from 'passport'
 
 type CredentialsConfirmation = {
     password: string
@@ -12,7 +14,7 @@ export default async function updatePassword({
     password,
     new_password,
     repeat_new_password,
-}: Params): Promise<boolean> {
+}: Params): Promise<void> {
     let getUserParams: [string] = [public_id]
 
     const client = await db.connect()
@@ -23,6 +25,8 @@ export default async function updatePassword({
         if (!new_password) throw new Error('new_password not specified')
         if (!repeat_new_password)
             throw new Error('repeat_new_password not specified')
+        if (new_password !== repeat_new_password)
+            throw new Error('"new password" and "repeat new password was not the same."')
 
         await client.query('BEGIN;')
 
@@ -34,16 +38,19 @@ export default async function updatePassword({
             password: db_password,
         }: CredentialsConfirmation = userDataResult.rows[0]
 
-        if (password === db_password && new_password === repeat_new_password) {
-            let updateParams: [string, string] = [public_id, new_password]
-            await db.query(query.updatePassword, updateParams)
-            await client.query('COMMIT;')
+        const saltRounds = process.env.NODE_ENV === 'production' ? 12 : 10
+        const hashedPassword = await bcrypt.hash(new_password, saltRounds)
 
-            return true
+        const providedPasswordIsCorrect = await bcrypt.compare(password, db_password);
+        if (!providedPasswordIsCorrect)
+            throw new Error('Provided password was not correct.')
+
+        if (providedPasswordIsCorrect && new_password === repeat_new_password) {
+            let updateParams: [string, string] = [public_id, hashedPassword]
+            await db.query(query.updatePassword, updateParams)
         }
 
         await client.query('COMMIT;')
-        return false
     } catch (err) {
         console.error(err)
         await client.query('ROLLBACK;')

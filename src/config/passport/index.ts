@@ -4,6 +4,9 @@ import db from '../db'
 import { QueryResult } from 'pg'
 import User from '../../routes/users/interfaces/user.interface'
 import bcrypt from 'bcrypt'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const getUserQuery: string = `select public_id, login, password, active from users where login = $1;`
 
@@ -49,10 +52,10 @@ passport.use(
     new JWTStrategy(
         {
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: secret,
+            secretOrKey: secret
         },
         (jwtPayload, done) => {
-            console.log(jwtPayload)
+            // console.log(jwtPayload)
             return done(null, jwtPayload)
         },
     ),
