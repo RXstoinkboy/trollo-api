@@ -6,7 +6,7 @@ export async function createExpense(req: Request, res: Response) {
     const params: Params = req.body // get data from request body
 
     try {
-        const public_id = await insertExpense(params)
+        const public_id = await insertExpense(params, req.user)
         res.status(200).json({
             message: 'Expense added to the system',
             public_id,

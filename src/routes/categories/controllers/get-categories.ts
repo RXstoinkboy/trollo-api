@@ -5,7 +5,7 @@ import { QueryResult } from 'pg'
 
 export default async function getCategories({
     user_id,
-}: Params): Promise<any[]> {
+}: string | any): Promise<any[]> {
     try {
         let getCategoriesParams: [string] = [user_id]
         const queryResult: QueryResult = await db.query(

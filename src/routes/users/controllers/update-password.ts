@@ -10,17 +10,16 @@ type CredentialsConfirmation = {
 }
 
 export default async function updatePassword({
-    public_id,
     password,
     new_password,
     repeat_new_password,
-}: Params): Promise<void> {
-    let getUserParams: [string] = [public_id]
+}: Params, { user_id }: string | any): Promise<void> {
+    let getUserParams: [string] = [user_id]
 
     const client = await db.connect()
 
     try {
-        if (!public_id) throw new Error('public_id not specified')
+        if (!user_id) throw new Error('user_id not specified')
         if (!password) throw new Error('password not specified')
         if (!new_password) throw new Error('new_password not specified')
         if (!repeat_new_password)
@@ -46,7 +45,7 @@ export default async function updatePassword({
             throw new Error('Provided password was not correct.')
 
         if (providedPasswordIsCorrect && new_password === repeat_new_password) {
-            let updateParams: [string, string] = [public_id, hashedPassword]
+            let updateParams: [string, string] = [user_id, hashedPassword]
             await db.query(query.updatePassword, updateParams)
         }
 

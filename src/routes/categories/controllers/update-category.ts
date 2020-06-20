@@ -5,12 +5,11 @@ import Params from '../interfaces/update-params.interface'
 
 export default async function updateCategory({
     category_id,
-    user_id,
     name,
     description,
     color,
     ui_position,
-}: Params): Promise<void> {
+}: Params, { user_id }: string | any): Promise<void> {
     const client = await db.connect()
 
     try {

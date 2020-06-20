@@ -26,13 +26,14 @@ passport.use(
                 )
                 const user: User = getUserResult.rows[0]
 
+                if (!user)
+                    return done(null, false, { message: 'Incorrect login' })
+                if (!user.active) return done(null, false, { message: 'User no longer active' })
+
                 const isPasswordCorrect = await bcrypt.compare(
                     password,
                     user.password,
                 )
-
-                if (!user)
-                    return done(null, false, { message: 'Incorrect login' })
                 if (!isPasswordCorrect)
                     return done(null, false, { message: 'Incorrect password' })
                 return done(null, user, { message: 'Logged in successfully' })
@@ -55,7 +56,6 @@ passport.use(
             secretOrKey: secret
         },
         (jwtPayload, done) => {
-            // console.log(jwtPayload)
             return done(null, jwtPayload)
         },
     ),

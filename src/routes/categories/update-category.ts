@@ -6,7 +6,7 @@ export default async function updateCategory(req: Request, res: Response) {
     const params: Params = req.body
 
     try {
-        await updateCategoryService(params)
+        await updateCategoryService(params, req.user)
 
         res.status(200).json({
             message: 'Update was successful',

@@ -4,12 +4,11 @@ import query from '../models/create-query'
 import Params from '../interfaces/create-params.interface'
 
 export default async function createCategory({
-    user_id,
     name,
     description,
     color,
     ui_position,
-}: Params): Promise<string> {
+}: Params, { user_id }: string | any): Promise<string> {
     const public_id: string = uuid()
     const client = await db.connect()
 

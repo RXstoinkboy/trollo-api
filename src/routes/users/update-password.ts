@@ -6,7 +6,7 @@ export async function updatePassword(req: Request, res: Response) {
     const params: Params = req.body
 
     try {
-        await updatePasswordService(params)
+        await updatePasswordService(params, req.user)
 
         res.status(200).json({ message: 'Password updated successfully.' })
     } catch (err) {

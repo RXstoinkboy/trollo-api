@@ -7,14 +7,13 @@ export default async function insertExpense({
     amount,
     name,
     description,
-    category,
-    user,
-}: Params): Promise<string> {
+    category
+}: Params, { user_id }: string | any): Promise<string> {
     const public_id: string = uuid() // generate unique ID for expense
     const client = await db.connect() // open connection with DB
 
     try {
-        if (!user) throw new Error('user not specified')
+        if (!user_id) throw new Error('user not specified')
         if (!amount) throw new Error('amount not specified')
 
         await client.query('BEGIN;') // start transaction
@@ -24,7 +23,7 @@ export default async function insertExpense({
 
         await client.query(query.insertAmount, AmountParams)
 
-        let assignToUserParams: [string, string] = [user, public_id]
+        let assignToUserParams: [string, string] = [user_id, public_id]
         await client.query(query.assignToUser, assignToUserParams)
 
         // if there are any details added when inserting them put them into db too

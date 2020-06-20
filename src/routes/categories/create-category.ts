@@ -6,7 +6,7 @@ export default async function createCategory(req: Request, res: Response) {
     const params: Params = req.body
 
     try {
-        const public_id = await createCategoryService(params)
+        const public_id = await createCategoryService(params, req.user)
 
         res.status(200).json({
             message: 'Category successfully created',

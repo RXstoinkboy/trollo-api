@@ -3,5 +3,4 @@ export default interface Params {
     name: string | null
     description: string | null
     category: string | null
-    user: string
 }

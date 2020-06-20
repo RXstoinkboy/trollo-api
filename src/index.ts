@@ -6,7 +6,8 @@ import routes from './routes'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import './config/passport'
-
+import notFound from './middleware/notFound'
+import errorHandler from './middleware/errorHandler'
 dotenv.config()
 
 if (!process.env.PORT) {
@@ -33,8 +34,8 @@ app.use(cookieParser())
 // router
 app.use('/', routes)
 
-// error middleware
-// 404 middleware
+app.use(errorHandler)
+app.use(notFound)
 
 // health check
 console.log('hello world')

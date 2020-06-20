@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import passport from 'passport'
-import jwt from 'jsonwebtoken'
+import jwt, { SignOptions } from 'jsonwebtoken'
 
 export async function login(req: Request, res: Response, next: NextFunction) {
     try {
@@ -10,16 +10,19 @@ export async function login(req: Request, res: Response, next: NextFunction) {
             (err, user, info) => {
                 const { message } = info
 
-                if (err || !user) {
+                if (err || !user || !user.active) {
                     res.status(400).json({
-                        info,
+                        message,
                         user,
                     })
                 }
                 req.login(user, { session: false }, (err) => {
                     if (err) res.status(400).send(err)
                     const secret: any = process.env.JWT_SECRET
-                    const token = jwt.sign(user.public_id, secret)
+                    const jwtOptions: SignOptions = {
+                        expiresIn: '2d'
+                    }
+                    const token = jwt.sign({ user_id: user.public_id }, secret, jwtOptions)
                     return res.status(200).json({ message, token })
                 })
             },

@@ -6,7 +6,7 @@ export async function updateUsername(req: Request, res: Response) {
     const params: Params = req.body
 
     try {
-        const isUpdateSuccessful = await updateUsernameService(params)
+        const isUpdateSuccessful = await updateUsernameService(params, req.user)
 
         if (isUpdateSuccessful) {
             res.status(200).json({

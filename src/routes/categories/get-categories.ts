@@ -4,9 +4,8 @@ import Params from './interfaces/get-categories-params.interface'
 import getCategoriesService from './controllers/get-categories'
 
 export default async function getCategories(req: Request, res: Response) {
-    const params: Params = req.body
     try {
-        const categories = await getCategoriesService(params)
+        const categories = await getCategoriesService(req.user)
 
         res.status(200).json(categories)
     } catch (err) {
