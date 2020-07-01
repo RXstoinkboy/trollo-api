@@ -15,7 +15,6 @@ export default async function insertUser({
 
     const saltRounds = process.env.NODE_ENV === 'production' ? 12 : 10
     const hashedPassword = await bcrypt.hash(password, saltRounds)
-    console.log('hashedPassword', hashedPassword)
 
     const user: User = {
         public_id: uuid(),

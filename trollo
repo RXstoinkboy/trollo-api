@@ -1,0 +1,715 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 11.4
+-- Dumped by pg_dump version 11.4
+
+-- Started on 2020-06-29 21:45:03
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 204 (class 1259 OID 32920)
+-- Name: categories; Type: TABLE; Schema: public; Owner: trollo-user
+--
+
+CREATE TABLE public.categories (
+    id integer NOT NULL,
+    public_id text NOT NULL,
+    name text NOT NULL,
+    created_at timestamp without time zone DEFAULT now(),
+    ui_position integer
+);
+
+
+ALTER TABLE public.categories OWNER TO "trollo-user";
+
+--
+-- TOC entry 206 (class 1259 OID 32931)
+-- Name: categories_details; Type: TABLE; Schema: public; Owner: trollo-user
+--
+
+CREATE TABLE public.categories_details (
+    id integer NOT NULL,
+    category_id text NOT NULL,
+    description text,
+    color text
+);
+
+
+ALTER TABLE public.categories_details OWNER TO "trollo-user";
+
+--
+-- TOC entry 205 (class 1259 OID 32929)
+-- Name: categories_details_id_seq; Type: SEQUENCE; Schema: public; Owner: trollo-user
+--
+
+CREATE SEQUENCE public.categories_details_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.categories_details_id_seq OWNER TO "trollo-user";
+
+--
+-- TOC entry 2897 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: categories_details_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: trollo-user
+--
+
+ALTER SEQUENCE public.categories_details_id_seq OWNED BY public.categories_details.id;
+
+
+--
+-- TOC entry 203 (class 1259 OID 32918)
+-- Name: categories_id_seq; Type: SEQUENCE; Schema: public; Owner: trollo-user
+--
+
+CREATE SEQUENCE public.categories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.categories_id_seq OWNER TO "trollo-user";
+
+--
+-- TOC entry 2898 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: trollo-user
+--
+
+ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
+
+
+--
+-- TOC entry 199 (class 1259 OID 32892)
+-- Name: expenses; Type: TABLE; Schema: public; Owner: trollo-user
+--
+
+CREATE TABLE public.expenses (
+    id integer NOT NULL,
+    public_id text NOT NULL,
+    amount integer NOT NULL,
+    created_at timestamp without time zone DEFAULT now(),
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE public.expenses OWNER TO "trollo-user";
+
+--
+-- TOC entry 202 (class 1259 OID 32912)
+-- Name: expenses_categories; Type: TABLE; Schema: public; Owner: trollo-user
+--
+
+CREATE TABLE public.expenses_categories (
+    expense_id text NOT NULL,
+    category_id text NOT NULL,
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.expenses_categories OWNER TO "trollo-user";
+
+--
+-- TOC entry 209 (class 1259 OID 32947)
+-- Name: expenses_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: trollo-user
+--
+
+CREATE SEQUENCE public.expenses_categories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.expenses_categories_id_seq OWNER TO "trollo-user";
+
+--
+-- TOC entry 2899 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: expenses_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: trollo-user
+--
+
+ALTER SEQUENCE public.expenses_categories_id_seq OWNED BY public.expenses_categories.id;
+
+
+--
+-- TOC entry 201 (class 1259 OID 32905)
+-- Name: expenses_details; Type: TABLE; Schema: public; Owner: trollo-user
+--
+
+CREATE TABLE public.expenses_details (
+    id integer NOT NULL,
+    expense_id text NOT NULL,
+    name text,
+    description text
+);
+
+
+ALTER TABLE public.expenses_details OWNER TO "trollo-user";
+
+--
+-- TOC entry 200 (class 1259 OID 32903)
+-- Name: expenses_details_id_seq; Type: SEQUENCE; Schema: public; Owner: trollo-user
+--
+
+CREATE SEQUENCE public.expenses_details_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.expenses_details_id_seq OWNER TO "trollo-user";
+
+--
+-- TOC entry 2900 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: expenses_details_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: trollo-user
+--
+
+ALTER SEQUENCE public.expenses_details_id_seq OWNED BY public.expenses_details.id;
+
+
+--
+-- TOC entry 198 (class 1259 OID 32890)
+-- Name: expenses_id_seq; Type: SEQUENCE; Schema: public; Owner: trollo-user
+--
+
+CREATE SEQUENCE public.expenses_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.expenses_id_seq OWNER TO "trollo-user";
+
+--
+-- TOC entry 2901 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: expenses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: trollo-user
+--
+
+ALTER SEQUENCE public.expenses_id_seq OWNED BY public.expenses.id;
+
+
+--
+-- TOC entry 197 (class 1259 OID 32857)
+-- Name: users; Type: TABLE; Schema: public; Owner: trollo-user
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    public_id text NOT NULL,
+    login text,
+    active boolean DEFAULT true,
+    password text NOT NULL,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.users OWNER TO "trollo-user";
+
+--
+-- TOC entry 211 (class 1259 OID 32968)
+-- Name: users_categories; Type: TABLE; Schema: public; Owner: trollo-user
+--
+
+CREATE TABLE public.users_categories (
+    id integer NOT NULL,
+    user_id text,
+    category_id text
+);
+
+
+ALTER TABLE public.users_categories OWNER TO "trollo-user";
+
+--
+-- TOC entry 210 (class 1259 OID 32966)
+-- Name: users_catergories_id_seq; Type: SEQUENCE; Schema: public; Owner: trollo-user
+--
+
+CREATE SEQUENCE public.users_catergories_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_catergories_id_seq OWNER TO "trollo-user";
+
+--
+-- TOC entry 2902 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: users_catergories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: trollo-user
+--
+
+ALTER SEQUENCE public.users_catergories_id_seq OWNED BY public.users_categories.id;
+
+
+--
+-- TOC entry 208 (class 1259 OID 32940)
+-- Name: users_expenses; Type: TABLE; Schema: public; Owner: trollo-user
+--
+
+CREATE TABLE public.users_expenses (
+    id integer NOT NULL,
+    user_id text,
+    expense_id text
+);
+
+
+ALTER TABLE public.users_expenses OWNER TO "trollo-user";
+
+--
+-- TOC entry 207 (class 1259 OID 32938)
+-- Name: users_expenses_id_seq; Type: SEQUENCE; Schema: public; Owner: trollo-user
+--
+
+CREATE SEQUENCE public.users_expenses_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_expenses_id_seq OWNER TO "trollo-user";
+
+--
+-- TOC entry 2903 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: users_expenses_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: trollo-user
+--
+
+ALTER SEQUENCE public.users_expenses_id_seq OWNED BY public.users_expenses.id;
+
+
+--
+-- TOC entry 196 (class 1259 OID 32855)
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: trollo-user
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO "trollo-user";
+
+--
+-- TOC entry 2904 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: trollo-user
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
+-- TOC entry 2742 (class 2604 OID 32923)
+-- Name: categories id; Type: DEFAULT; Schema: public; Owner: trollo-user
+--
+
+ALTER TABLE ONLY public.categories ALTER COLUMN id SET DEFAULT nextval('public.categories_id_seq'::regclass);
+
+
+--
+-- TOC entry 2744 (class 2604 OID 32934)
+-- Name: categories_details id; Type: DEFAULT; Schema: public; Owner: trollo-user
+--
+
+ALTER TABLE ONLY public.categories_details ALTER COLUMN id SET DEFAULT nextval('public.categories_details_id_seq'::regclass);
+
+
+--
+-- TOC entry 2738 (class 2604 OID 32895)
+-- Name: expenses id; Type: DEFAULT; Schema: public; Owner: trollo-user
+--
+
+ALTER TABLE ONLY public.expenses ALTER COLUMN id SET DEFAULT nextval('public.expenses_id_seq'::regclass);
+
+
+--
+-- TOC entry 2741 (class 2604 OID 32949)
+-- Name: expenses_categories id; Type: DEFAULT; Schema: public; Owner: trollo-user
+--
+
+ALTER TABLE ONLY public.expenses_categories ALTER COLUMN id SET DEFAULT nextval('public.expenses_categories_id_seq'::regclass);
+
+
+--
+-- TOC entry 2740 (class 2604 OID 32908)
+-- Name: expenses_details id; Type: DEFAULT; Schema: public; Owner: trollo-user
+--
+
+ALTER TABLE ONLY public.expenses_details ALTER COLUMN id SET DEFAULT nextval('public.expenses_details_id_seq'::regclass);
+
+
+--
+-- TOC entry 2735 (class 2604 OID 32860)
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: trollo-user
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
+-- TOC entry 2746 (class 2604 OID 32971)
+-- Name: users_categories id; Type: DEFAULT; Schema: public; Owner: trollo-user
+--
+
+ALTER TABLE ONLY public.users_categories ALTER COLUMN id SET DEFAULT nextval('public.users_catergories_id_seq'::regclass);
+
+
+--
+-- TOC entry 2745 (class 2604 OID 32943)
+-- Name: users_expenses id; Type: DEFAULT; Schema: public; Owner: trollo-user
+--
+
+ALTER TABLE ONLY public.users_expenses ALTER COLUMN id SET DEFAULT nextval('public.users_expenses_id_seq'::regclass);
+
+
+--
+-- TOC entry 2884 (class 0 OID 32920)
+-- Dependencies: 204
+-- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: trollo-user
+--
+
+COPY public.categories (id, public_id, name, created_at, ui_position) FROM stdin;
+6	95ef1e0d-5ebc-41bb-ad0c-cd61b1f86637	trikkes	2020-06-04 23:33:54.101891	\N
+7	ef5c0698-af11-4e0b-a26c-cc77c91bfeb4	trikkes	2020-06-04 23:33:54.101891	\N
+1	9167b78b-c81f-46f0-83b7-4c2d0e3bb990	postman-test-name	2020-06-04 23:33:54.101891	\N
+10	b3844a15-ef5f-4b5a-a880-24bd2a9d76db	test_querki	2020-06-10 22:39:07.398602	1
+11	d32727ed-b3da-41d2-b996-efeb3ac19a9e	test kategorii test query	2020-06-10 22:55:20.661628	1
+\.
+
+
+--
+-- TOC entry 2886 (class 0 OID 32931)
+-- Dependencies: 206
+-- Data for Name: categories_details; Type: TABLE DATA; Schema: public; Owner: trollo-user
+--
+
+COPY public.categories_details (id, category_id, description, color) FROM stdin;
+1	95ef1e0d-5ebc-41bb-ad0c-cd61b1f86637	hmmm	pink
+2	ef5c0698-af11-4e0b-a26c-cc77c91bfeb4	hmmm	pink
+4	9167b78b-c81f-46f0-83b7-4c2d0e3bb990	test_desc	test_color
+8	b3844a15-ef5f-4b5a-a880-24bd2a9d76db	test_querki_description	red
+9	d32727ed-b3da-41d2-b996-efeb3ac19a9e	test kategorii test query_descirption	red_test
+\.
+
+
+--
+-- TOC entry 2879 (class 0 OID 32892)
+-- Dependencies: 199
+-- Data for Name: expenses; Type: TABLE DATA; Schema: public; Owner: trollo-user
+--
+
+COPY public.expenses (id, public_id, amount, created_at, updated_at) FROM stdin;
+4	test_from_db	333	2020-05-20 23:16:37.574146	\N
+9	test from postman2	13	2020-05-20 23:26:08.271018	\N
+10	test from postman3	13	2020-05-20 23:27:28.535712	\N
+11	test from postman4	13	2020-05-20 23:28:31.10349	\N
+13	expense-1ufn3lokafv9pg0	13	2020-05-20 23:36:58.949832	\N
+14	expense-1ufn3lokafvjiwy	13	2020-05-20 23:44:37.091298	\N
+18	expense-1ufn3z6kafx2t49	13	2020-05-21 00:27:36.441067	\N
+19	expense-1ufn42gkafx3tuj	13	2020-05-21 00:28:24.197305	\N
+20	test transakcji	666	2020-05-21 00:33:13.906524	\N
+21	expense-1ufn45qkafxaxu1	13	2020-05-21 00:33:55.712683	\N
+22	expense-1ufn45qkafxdqs2	13	2020-05-21 00:36:07.734323	\N
+23	expense-1ufn45qkafxew96	13	2020-05-21 00:37:00.298649	\N
+24	expense-1ufn45qkafxhue4	13	2020-05-21 00:39:17.833549	\N
+25	expense-1ufn45qkafxk1lz	13	2020-05-21 00:41:00.518801	\N
+26	expense-1ufn45qkafxoova	13	2020-05-21 00:44:37.28537	\N
+27	expense-1ufn45qkafxryd5	133	2020-05-21 00:47:09.610858	\N
+28	expense-1ufn2dikah9f0po	666	2020-05-21 23:00:47.850511	\N
+29	expense-1ufn2dikah9g6lo	666	2020-05-21 23:01:42.073807	\N
+30	expense-1ufn2dikah9gv4x	666	2020-05-21 23:02:13.738813	\N
+31	expense-1ufn2dikah9ipu2	666	2020-05-21 23:03:40.157827	\N
+32	expense-1ufn2dikah9ka2p	666	2020-05-21 23:04:53.07155	\N
+33	expense-1ufn2dikah9oc81	666	2020-05-21 23:08:02.659385	\N
+34	expense-1ufn2dikah9pt5s	666	2020-05-21 23:09:11.107059	\N
+35	expense-1ufn2dikah9qgjz	666	2020-05-21 23:09:41.379442	\N
+36	expense-1ufn2dikah9svwv	666	2020-05-21 23:11:34.683077	\N
+37	expense-1ufn44ekah9uqpw	777	2020-05-21 23:13:01.30757	\N
+38	expense-1ufn53ekaha08ra	777	2020-05-21 23:17:17.837825	\N
+39	expense-1ufn53ekaha1kbf	777	2020-05-21 23:18:19.527403	\N
+40	expense-1ufn53ekaha2dxu	777	2020-05-21 23:18:57.893276	\N
+41	expense-1ufn53ekaha2wnb	777	2020-05-21 23:19:22.152683	\N
+44	expense-1ufn58okaha6mnj	777	2020-05-21 23:22:15.780849	\N
+45	expense-1ufn58okaha84h8	777	2020-05-21 23:23:25.567678	\N
+46	expense-1ufn58okahbksji	888	2020-05-22 00:01:16.530872	\N
+17	expense-1ufn3vpkafx20bs	90	2020-05-21 00:26:59.073646	\N
+49	b2c9cd71-a7ed-44be-8ebe-b62da9ff9454	1	2020-05-24 00:22:40.211104	\N
+57	2b0bf3e6-d9e5-44db-9e05-b3c53f8ca639	10000	2020-05-29 00:41:35.015562	\N
+60	1de79aef-b62d-4de0-868e-b014968d249c	3	2020-06-05 00:05:07.906609	\N
+61	d5e19117-d348-40a7-a9ca-04487999182c	3	2020-06-05 00:06:46.360924	\N
+62	1ab53de9-721a-486c-84ea-8c2e819d5455	3	2020-06-05 00:26:28.347449	\N
+63	7dbf098f-a381-4f58-99cc-e33e0c64f009	3	2020-06-05 00:29:15.082907	\N
+64	10dcd5fd-0db4-42cb-bafb-100961cc5486	4	2020-06-05 00:32:23.9577	\N
+65	0c58d795-3d46-4ea9-86f0-028b19e48c87	8	2020-06-05 00:39:09.32062	\N
+66	9e470b25-032c-412c-9136-c91d7d00e8e6	800	2020-06-05 00:41:37.191002	\N
+67	1c67c167-6e4d-4613-aa2a-828e1d5e3717	666	2020-06-10 23:04:56.983689	\N
+\.
+
+
+--
+-- TOC entry 2882 (class 0 OID 32912)
+-- Dependencies: 202
+-- Data for Name: expenses_categories; Type: TABLE DATA; Schema: public; Owner: trollo-user
+--
+
+COPY public.expenses_categories (expense_id, category_id, id) FROM stdin;
+7dbf098f-a381-4f58-99cc-e33e0c64f009	b3844a15-ef5f-4b5a-a880-24bd2a9d76db	3
+1c67c167-6e4d-4613-aa2a-828e1d5e3717	d32727ed-b3da-41d2-b996-efeb3ac19a9e	4
+\.
+
+
+--
+-- TOC entry 2881 (class 0 OID 32905)
+-- Dependencies: 201
+-- Data for Name: expenses_details; Type: TABLE DATA; Schema: public; Owner: trollo-user
+--
+
+COPY public.expenses_details (id, expense_id, name, description) FROM stdin;
+2	expense-1ufn3z6kafx2t49	papieroski	\N
+3	test transakcji	tescik	zeby sprawdzic czy dziala
+4	expense-1ufn45qkafxhue4	test transakcji z postman	\N
+5	expense-1ufn45qkafxk1lz	test transakcji z postman 2	\N
+6	expense-1ufn45qkafxoova	test transakcji z postman 2	\N
+7	expense-1ufn45qkafxryd5	test name	test z name i description
+8	expense-1ufn2dikah9f0po	name name	\N
+9	expense-1ufn2dikah9f0po	\N	\N
+10	expense-1ufn2dikah9g6lo	name name	\N
+11	expense-1ufn2dikah9g6lo	\N	\N
+12	expense-1ufn2dikah9gv4x	name name	\N
+13	expense-1ufn2dikah9gv4x	\N	\N
+14	expense-1ufn2dikah9ipu2	name name	\N
+15	expense-1ufn2dikah9ipu2	\N	\N
+16	expense-1ufn2dikah9ka2p	name name	\N
+17	expense-1ufn2dikah9ka2p		\N
+18	expense-1ufn2dikah9oc81	name name	\N
+19	expense-1ufn2dikah9oc81		\N
+20	expense-1ufn2dikah9pt5s	name name	\N
+21	expense-1ufn2dikah9pt5s		\N
+22	expense-1ufn2dikah9qgjz	name name	\N
+23	expense-1ufn2dikah9qgjz		\N
+24	expense-1ufn2dikah9svwv	name name	\N
+25	expense-1ufn2dikah9svwv		\N
+26	expense-1ufn53ekaha08ra	name	desc
+27	expense-1ufn53ekaha1kbf	name	\N
+28	expense-1ufn53ekaha2dxu	desc	\N
+29	expense-1ufn53ekaha2wnb	desc	\N
+30	expense-1ufn58okaha6mnj	\N	desc
+31	expense-1ufn58okaha84h8	hello	\N
+32	expense-1ufn58okahbksji	test undefined	\N
+1	expense-1ufn3vpkafx20bs	fajeczki	co by uumrzec na cos
+35	b2c9cd71-a7ed-44be-8ebe-b62da9ff9454	get data test	get data test
+37	2b0bf3e6-d9e5-44db-9e05-b3c53f8ca639	szambo	było drogie ale duze
+40	7dbf098f-a381-4f58-99cc-e33e0c64f009	expense_test	expense_test
+41	10dcd5fd-0db4-42cb-bafb-100961cc5486	:)	:)
+42	0c58d795-3d46-4ea9-86f0-028b19e48c87	test_join	to jest test joina
+43	1c67c167-6e4d-4613-aa2a-828e1d5e3717	to jest tesci ekspanse	to jest do niego deskripszyn
+\.
+
+
+--
+-- TOC entry 2877 (class 0 OID 32857)
+-- Dependencies: 197
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: trollo-user
+--
+
+COPY public.users (id, public_id, login, active, password, created_at) FROM stdin;
+2	b3844a15-ef5f-4b5a-a880-24bd2a9d76db	test@user.haha	t	dupadupa1	2020-06-04 23:31:02.719332
+4	1261c1ed-887c-474d-b207-6574d6dfa9c0	update_test	t	hello	2020-06-04 23:31:02.719332
+3	5a3609bc-b8a7-4514-b1bb-cd1991588c08	hihihaha	t	hejho	2020-06-04 23:31:02.719332
+5	43a35c74-1cf4-437f-ac1d-36fa6808fdca	test_user_refactor	t	password :)	2020-06-04 23:31:21.543055
+6	8cd4728c-89ec-4827-a71f-2a0aff27a3df	test_user_now	t	hello	2020-06-04 23:32:11.544671
+1	test_public_id	this is new login	t	$2b$10$rR.9TWQwKksrPk6EiWWU9.340yznRD6KMDhDuL4VrbgEOuO3JuTxG	2020-06-04 23:31:02.719332
+7	92cbdc88-0765-4fec-94ba-e9f79f11dec7	shaft	f	$2b$10$S4Agg.AKUxztxaiQHTy4BOzq2R9ZB344UQlG6pDhCXI5xKrbZIaSS	2020-06-17 23:02:55.44949
+\.
+
+
+--
+-- TOC entry 2891 (class 0 OID 32968)
+-- Dependencies: 211
+-- Data for Name: users_categories; Type: TABLE DATA; Schema: public; Owner: trollo-user
+--
+
+COPY public.users_categories (id, user_id, category_id) FROM stdin;
+1	b3844a15-ef5f-4b5a-a880-24bd2a9d76db	9167b78b-c81f-46f0-83b7-4c2d0e3bb990
+3	test_public_id	d32727ed-b3da-41d2-b996-efeb3ac19a9e
+\.
+
+
+--
+-- TOC entry 2888 (class 0 OID 32940)
+-- Dependencies: 208
+-- Data for Name: users_expenses; Type: TABLE DATA; Schema: public; Owner: trollo-user
+--
+
+COPY public.users_expenses (id, user_id, expense_id) FROM stdin;
+2	b3844a15-ef5f-4b5a-a880-24bd2a9d76db	2b0bf3e6-d9e5-44db-9e05-b3c53f8ca639
+5	\N	1de79aef-b62d-4de0-868e-b014968d249c
+6	\N	d5e19117-d348-40a7-a9ca-04487999182c
+7	b3844a15-ef5f-4b5a-a880-24bd2a9d76db	1ab53de9-721a-486c-84ea-8c2e819d5455
+8	b3844a15-ef5f-4b5a-a880-24bd2a9d76db	7dbf098f-a381-4f58-99cc-e33e0c64f009
+9	b3844a15-ef5f-4b5a-a880-24bd2a9d76db	10dcd5fd-0db4-42cb-bafb-100961cc5486
+10	43a35c74-1cf4-437f-ac1d-36fa6808fdca	0c58d795-3d46-4ea9-86f0-028b19e48c87
+11	43a35c74-1cf4-437f-ac1d-36fa6808fdca	9e470b25-032c-412c-9136-c91d7d00e8e6
+12	test_public_id	1c67c167-6e4d-4613-aa2a-828e1d5e3717
+\.
+
+
+--
+-- TOC entry 2905 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: categories_details_id_seq; Type: SEQUENCE SET; Schema: public; Owner: trollo-user
+--
+
+SELECT pg_catalog.setval('public.categories_details_id_seq', 9, true);
+
+
+--
+-- TOC entry 2906 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: trollo-user
+--
+
+SELECT pg_catalog.setval('public.categories_id_seq', 11, true);
+
+
+--
+-- TOC entry 2907 (class 0 OID 0)
+-- Dependencies: 209
+-- Name: expenses_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: trollo-user
+--
+
+SELECT pg_catalog.setval('public.expenses_categories_id_seq', 4, true);
+
+
+--
+-- TOC entry 2908 (class 0 OID 0)
+-- Dependencies: 200
+-- Name: expenses_details_id_seq; Type: SEQUENCE SET; Schema: public; Owner: trollo-user
+--
+
+SELECT pg_catalog.setval('public.expenses_details_id_seq', 43, true);
+
+
+--
+-- TOC entry 2909 (class 0 OID 0)
+-- Dependencies: 198
+-- Name: expenses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: trollo-user
+--
+
+SELECT pg_catalog.setval('public.expenses_id_seq', 67, true);
+
+
+--
+-- TOC entry 2910 (class 0 OID 0)
+-- Dependencies: 210
+-- Name: users_catergories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: trollo-user
+--
+
+SELECT pg_catalog.setval('public.users_catergories_id_seq', 3, true);
+
+
+--
+-- TOC entry 2911 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: users_expenses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: trollo-user
+--
+
+SELECT pg_catalog.setval('public.users_expenses_id_seq', 12, true);
+
+
+--
+-- TOC entry 2912 (class 0 OID 0)
+-- Dependencies: 196
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: trollo-user
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 8, true);
+
+
+--
+-- TOC entry 2754 (class 2606 OID 32928)
+-- Name: categories categories_public_id_key; Type: CONSTRAINT; Schema: public; Owner: trollo-user
+--
+
+ALTER TABLE ONLY public.categories
+    ADD CONSTRAINT categories_public_id_key UNIQUE (public_id);
+
+
+--
+-- TOC entry 2752 (class 2606 OID 32900)
+-- Name: expenses expenses_public_id_key; Type: CONSTRAINT; Schema: public; Owner: trollo-user
+--
+
+ALTER TABLE ONLY public.expenses
+    ADD CONSTRAINT expenses_public_id_key UNIQUE (public_id);
+
+
+--
+-- TOC entry 2748 (class 2606 OID 32867)
+-- Name: users users_login_key; Type: CONSTRAINT; Schema: public; Owner: trollo-user
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_login_key UNIQUE (login);
+
+
+--
+-- TOC entry 2750 (class 2606 OID 32865)
+-- Name: users users_public_id_key; Type: CONSTRAINT; Schema: public; Owner: trollo-user
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_public_id_key UNIQUE (public_id);
+
+
+-- Completed on 2020-06-29 21:45:04
+
+--
+-- PostgreSQL database dump complete
+--
+
